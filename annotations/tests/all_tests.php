@@ -8,7 +8,8 @@
     require_once(dirname(__FILE__).'/constrained_annotation_test.php');
     require_once(dirname(__FILE__).'/annotation_parser_test.php');
     require_once(dirname(__FILE__).'/doc_comment_test.php');
-    
+    require_once(dirname(__FILE__).'/strict_annotation_test.php');
+
     $suite = new TestSuite('All tests');
     $suite->add(new TestOfAddendum);
     $suite->add(new TestOfAnnotations);
@@ -20,7 +21,8 @@
     $suite->add(new TestOfMatchers);
     $suite->add(new TestOfAnnotationMatchers);
     $suite->add(new TestOfDocComment);
-	
+    $suite->add(new TestOfUnknownAnnotations);
+
     if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
         require_once(dirname(__FILE__).'/namespaces_test.php');
         $suite->add(new TestOfNamespaces);

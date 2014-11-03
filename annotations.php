@@ -128,7 +128,11 @@
 					$annotation = $this->instantiateAnnotation($class, $params, $targetReflection);
 					if($annotation !== false) {
 						$annotations[get_class($annotation)][] = $annotation;
-					}
+					} else {
+                        if(Addendum::strict() == preg_match('/^[A-Z][\\\\A-Za-z0-9]+$/', $class)){
+                            throw new Exception("Error, unknown Annotation: $class");
+                        }
+                    }
 				}
 			}
 			return new AnnotationsCollection($annotations);
@@ -325,6 +329,7 @@
 	class Addendum {
 		private static $rawMode;
 		private static $ignore;
+		private static $strict = false;
 		private static $classnames = array();
 		private static $annotations = false;
 		
@@ -367,6 +372,14 @@
 				self::$ignore[$class] = true;
 			}
 		}
+
+        public static function strict($strict = null){
+            if($strict !== null){
+                self::$strict = $strict;
+            }
+            return self::$strict;
+
+        }
 
 		public static function resolveClassName($class) {
 			if(isset(self::$classnames[$class])) return self::$classnames[$class];
